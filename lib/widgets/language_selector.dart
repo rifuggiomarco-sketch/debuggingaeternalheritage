@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../core/providers.dart';
 
 class LanguageSelector extends ConsumerWidget {
   const LanguageSelector({super.key});

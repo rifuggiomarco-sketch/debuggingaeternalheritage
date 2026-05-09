@@ -851,7 +851,7 @@ class EnhancedDeadMansSwitchService {
     final state = await _loadState();
     if (state.gracePeriodEnd != null) {
       final duration = state.gracePeriodEnd!.difference(DateTime.now());
-      if (duration.isPositive) {
+      if (duration.inMilliseconds > 0) {
         _gracePeriodTimer = Timer(duration, () async {
           await _triggerDeadMansSwitch(state);
         });

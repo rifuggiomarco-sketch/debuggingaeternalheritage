@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "com.aeterna.protocol.app-debug-89:/drawable_launch_background.xml.flat",
+        "source": "com.aeterna.protocol.app-main-84:/drawable/launch_background.xml"
+    },
+    {
+        "merged": "com.aeterna.protocol.app-debug-89:/xml_network_security_config.xml.flat",
+        "source": "com.aeterna.protocol.app-main-84:/xml/network_security_config.xml"
+    }
+]

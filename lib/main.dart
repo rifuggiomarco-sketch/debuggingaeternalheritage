@@ -10,14 +10,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // Core imports
-import 'core/lifecycle/app_lifecycle_manager.dart';
 import 'core/logger.dart';
-import 'core/providers.dart';
-import 'core/router/app_router.dart';
-import 'core/services/screenshot_protection.dart';
-import 'core/state/lock_state.dart';
-import 'core/theme/app_theme.dart';
-import 'l10n/localization_service.dart';
 import 'core/services/supabase_service.dart';
 import 'core/services/stripe_service.dart';
 import 'core/services/dead_mans_switch_enhanced_service.dart';

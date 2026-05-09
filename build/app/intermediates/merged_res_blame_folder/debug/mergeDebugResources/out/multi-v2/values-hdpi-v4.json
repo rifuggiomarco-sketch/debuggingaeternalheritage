@@ -1,0 +1,38 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.aeterna.protocol.app-mergeDebugResources-87:/values-hdpi-v4/values-hdpi-v4.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\coldt\\.gradle\\caches\\8.11.1\\transforms\\18ae51b68d2f2fa442422253a372ae02\\transformed\\jetified-payments-core-23.1.0\\res\\values-hdpi-v4\\values-hdpi-v4.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "63",
+                        "endOffsets": "114"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\coldt\\.gradle\\caches\\8.11.1\\transforms\\7955dbae2fef873947c0e4bce47f02ac\\transformed\\appcompat-1.7.1\\res\\values-hdpi-v4\\values-hdpi-v4.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "6",
+                        "endColumns": "13",
+                        "endOffsets": "327"
+                    },
+                    "to": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "119",
+                        "endLines": "7",
+                        "endColumns": "13",
+                        "endOffsets": "391"
+                    }
+                }
+            ]
+        }
+    ]
+}

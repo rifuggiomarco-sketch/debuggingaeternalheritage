@@ -1,0 +1,77 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.flutter.stripe" >
+4
+5    <uses-sdk android:minSdkVersion="21" />
+6
+7    <application>
+7-->C:\Users\coldt\AppData\Local\Pub\Cache\hosted\pub.dev\stripe_android-12.6.0\android\src\main\AndroidManifest.xml:4:5-38:19
+8        <activity
+8-->C:\Users\coldt\AppData\Local\Pub\Cache\hosted\pub.dev\stripe_android-12.6.0\android\src\main\AndroidManifest.xml:5:9-11:40
+9            android:name="com.reactnativestripesdk.CustomPaymentMethodActivity"
+9-->C:\Users\coldt\AppData\Local\Pub\Cache\hosted\pub.dev\stripe_android-12.6.0\android\src\main\AndroidManifest.xml:6:13-80
+10            android:excludeFromRecents="true"
+10-->C:\Users\coldt\AppData\Local\Pub\Cache\hosted\pub.dev\stripe_android-12.6.0\android\src\main\AndroidManifest.xml:10:13-46
+11            android:exported="false"
+11-->C:\Users\coldt\AppData\Local\Pub\Cache\hosted\pub.dev\stripe_android-12.6.0\android\src\main\AndroidManifest.xml:8:13-37
+12            android:launchMode="singleTop"
+12-->C:\Users\coldt\AppData\Local\Pub\Cache\hosted\pub.dev\stripe_android-12.6.0\android\src\main\AndroidManifest.xml:9:13-43
+13            android:noHistory="true"
+13-->C:\Users\coldt\AppData\Local\Pub\Cache\hosted\pub.dev\stripe_android-12.6.0\android\src\main\AndroidManifest.xml:11:13-37
+14            android:theme="@style/Theme.StripeReactNative.Transparent" />
+14-->C:\Users\coldt\AppData\Local\Pub\Cache\hosted\pub.dev\stripe_android-12.6.0\android\src\main\AndroidManifest.xml:7:13-71
+15
+16        <!-- Interceptor for stripe-connect:// deep links -->
+17        <activity
+17-->C:\Users\coldt\AppData\Local\Pub\Cache\hosted\pub.dev\stripe_android-12.6.0\android\src\main\AndroidManifest.xml:14:9-27:20
+18            android:name="com.reactnativestripesdk.StripeConnectDeepLinkInterceptorActivity"
+18-->C:\Users\coldt\AppData\Local\Pub\Cache\hosted\pub.dev\stripe_android-12.6.0\android\src\main\AndroidManifest.xml:15:13-93
+19            android:excludeFromRecents="true"
+19-->C:\Users\coldt\AppData\Local\Pub\Cache\hosted\pub.dev\stripe_android-12.6.0\android\src\main\AndroidManifest.xml:19:13-46
+20            android:exported="true"
+20-->C:\Users\coldt\AppData\Local\Pub\Cache\hosted\pub.dev\stripe_android-12.6.0\android\src\main\AndroidManifest.xml:17:13-36
+21            android:launchMode="singleTask"
+21-->C:\Users\coldt\AppData\Local\Pub\Cache\hosted\pub.dev\stripe_android-12.6.0\android\src\main\AndroidManifest.xml:18:13-44
+22            android:noHistory="true"
+22-->C:\Users\coldt\AppData\Local\Pub\Cache\hosted\pub.dev\stripe_android-12.6.0\android\src\main\AndroidManifest.xml:20:13-37
+23            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+23-->C:\Users\coldt\AppData\Local\Pub\Cache\hosted\pub.dev\stripe_android-12.6.0\android\src\main\AndroidManifest.xml:16:13-72
+24            <intent-filter>
+24-->C:\Users\coldt\AppData\Local\Pub\Cache\hosted\pub.dev\stripe_android-12.6.0\android\src\main\AndroidManifest.xml:21:13-26:29
+25                <action android:name="android.intent.action.VIEW" />
+25-->C:\Users\coldt\AppData\Local\Pub\Cache\hosted\pub.dev\stripe_android-12.6.0\android\src\main\AndroidManifest.xml:22:17-68
+25-->C:\Users\coldt\AppData\Local\Pub\Cache\hosted\pub.dev\stripe_android-12.6.0\android\src\main\AndroidManifest.xml:22:25-66
+26
+27                <category android:name="android.intent.category.DEFAULT" />
+27-->C:\Users\coldt\AppData\Local\Pub\Cache\hosted\pub.dev\stripe_android-12.6.0\android\src\main\AndroidManifest.xml:23:17-75
+27-->C:\Users\coldt\AppData\Local\Pub\Cache\hosted\pub.dev\stripe_android-12.6.0\android\src\main\AndroidManifest.xml:23:27-73
+28                <category android:name="android.intent.category.BROWSABLE" />
+28-->C:\Users\coldt\AppData\Local\Pub\Cache\hosted\pub.dev\stripe_android-12.6.0\android\src\main\AndroidManifest.xml:24:17-77
+28-->C:\Users\coldt\AppData\Local\Pub\Cache\hosted\pub.dev\stripe_android-12.6.0\android\src\main\AndroidManifest.xml:24:27-75
+29
+30                <data android:scheme="stripe-connect" />
+30-->C:\Users\coldt\AppData\Local\Pub\Cache\hosted\pub.dev\stripe_android-12.6.0\android\src\main\AndroidManifest.xml:25:17-56
+30-->C:\Users\coldt\AppData\Local\Pub\Cache\hosted\pub.dev\stripe_android-12.6.0\android\src\main\AndroidManifest.xml:25:23-54
+31            </intent-filter>
+32        </activity>
+33
+34        <provider
+34-->C:\Users\coldt\AppData\Local\Pub\Cache\hosted\pub.dev\stripe_android-12.6.0\android\src\main\AndroidManifest.xml:29:9-37:20
+35            android:name="com.reactnativestripesdk.StripeFileProvider"
+35-->C:\Users\coldt\AppData\Local\Pub\Cache\hosted\pub.dev\stripe_android-12.6.0\android\src\main\AndroidManifest.xml:30:13-71
+36            android:authorities="${applicationId}.fileprovider"
+36-->C:\Users\coldt\AppData\Local\Pub\Cache\hosted\pub.dev\stripe_android-12.6.0\android\src\main\AndroidManifest.xml:31:13-64
+37            android:exported="false"
+37-->C:\Users\coldt\AppData\Local\Pub\Cache\hosted\pub.dev\stripe_android-12.6.0\android\src\main\AndroidManifest.xml:32:13-37
+38            android:grantUriPermissions="true" >
+38-->C:\Users\coldt\AppData\Local\Pub\Cache\hosted\pub.dev\stripe_android-12.6.0\android\src\main\AndroidManifest.xml:33:13-47
+39            <meta-data
+39-->C:\Users\coldt\AppData\Local\Pub\Cache\hosted\pub.dev\stripe_android-12.6.0\android\src\main\AndroidManifest.xml:34:13-36:54
+40                android:name="android.support.FILE_PROVIDER_PATHS"
+40-->C:\Users\coldt\AppData\Local\Pub\Cache\hosted\pub.dev\stripe_android-12.6.0\android\src\main\AndroidManifest.xml:35:17-67
+41                android:resource="@xml/file_paths" />
+41-->C:\Users\coldt\AppData\Local\Pub\Cache\hosted\pub.dev\stripe_android-12.6.0\android\src\main\AndroidManifest.xml:36:17-51
+42        </provider>
+43    </application>
+44
+45</manifest>

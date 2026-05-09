@@ -2,6 +2,7 @@
 // Provides enterprise-grade subscription management with instant upgrades and comprehensive reporting
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -517,7 +518,7 @@ class EnhancedSubscriptionService {
           status: refundResult.status == 'succeeded' ? PaymentStatus.refunded : PaymentStatus.partially_refunded,
           updatedAt: DateTime.now(),
           metadata: {
-            ...subscription.metadata,
+            ...?subscription.metadata,
             'refundId': refundResult.refundId,
             'refundAmount': refundAmount,
             'refundReason': reason,

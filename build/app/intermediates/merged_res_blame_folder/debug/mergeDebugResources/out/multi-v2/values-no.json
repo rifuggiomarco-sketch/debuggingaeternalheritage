@@ -1,0 +1,43 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.aeterna.protocol.app-mergeDebugResources-87:/values-no/values-no.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\coldt\\.gradle\\caches\\8.11.1\\transforms\\0316be05aec8c418b08d08979ad8c629\\transformed\\jetified-play-services-wallet-19.5.0\\res\\values-no\\values.xml",
+                    "from": {
+                        "startLines": "4,5,6",
+                        "startColumns": "0,0,0",
+                        "startOffsets": "202,267,324",
+                        "endColumns": "64,56,70",
+                        "endOffsets": "266,323,394"
+                    },
+                    "to": {
+                        "startLines": "2,3,5",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,124,268",
+                        "endColumns": "68,60,74",
+                        "endOffsets": "119,180,338"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\coldt\\.gradle\\caches\\8.11.1\\transforms\\21ec9a35f083f87f3a15288480fd7cdc\\transformed\\jetified-hcaptcha-23.1.0\\res\\values-no\\values-no.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "82",
+                        "endOffsets": "133"
+                    },
+                    "to": {
+                        "startLines": "4",
+                        "startColumns": "4",
+                        "startOffsets": "185",
+                        "endColumns": "82",
+                        "endOffsets": "263"
+                    }
+                }
+            ]
+        }
+    ]
+}

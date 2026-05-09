@@ -1,6 +1,7 @@
 // v2.5 - Enhanced Error Handling Service
 // Provides comprehensive error handling, user feedback, and recovery mechanisms
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
 

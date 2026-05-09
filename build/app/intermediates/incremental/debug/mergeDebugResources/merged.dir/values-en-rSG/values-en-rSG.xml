@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="direct_pix_payment">Direct Pix payment</string>
+    <string name="gpay_logo_description">Google Pay</string>
+    <string name="wallet_buy_button_place_holder">Buy with Google</string>
+</resources>

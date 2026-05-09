@@ -21,6 +21,12 @@ class AppLogger {
     if (stackTrace != null) debugPrint(stackTrace.toString());
   }
 
+  static void critical(String message, [Object? err, StackTrace? stackTrace]) {
+    if (!kDebugMode) return;
+    debugPrint('[CRITICAL] $message${err != null ? ': $err' : ''}');
+    if (stackTrace != null) debugPrint(stackTrace.toString());
+  }
+
   /// Helper per loggare azioni vault SENZA esporre payload.
   /// Esempio: AppLogger.vaultOp('encrypt', success: true);
   static void vaultOp(String op, {required bool success}) {

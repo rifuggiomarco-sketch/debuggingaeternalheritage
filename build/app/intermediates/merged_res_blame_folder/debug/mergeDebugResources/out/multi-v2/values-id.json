@@ -1,0 +1,26 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.aeterna.protocol.app-mergeDebugResources-87:/values-id/values-id.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\coldt\\.gradle\\caches\\8.11.1\\transforms\\0316be05aec8c418b08d08979ad8c629\\transformed\\jetified-play-services-wallet-19.5.0\\res\\values-id\\values.xml",
+                    "from": {
+                        "startLines": "4,5,6",
+                        "startColumns": "0,0,0",
+                        "startOffsets": "202,269,326",
+                        "endColumns": "66,56,73",
+                        "endOffsets": "268,325,399"
+                    },
+                    "to": {
+                        "startLines": "2,3,4",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,126,187",
+                        "endColumns": "70,60,77",
+                        "endOffsets": "121,182,260"
+                    }
+                }
+            ]
+        }
+    ]
+}

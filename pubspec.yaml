@@ -36,6 +36,7 @@ dependencies:
   flutter_stripe: any
   supabase: any
   path: any
+  local_auth_android: any
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -51,9 +52,3 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
-  fonts:
-    - family: DMM
-      fonts:
-        - asset: assets/fonts/DMMono-Regular.ttf
-        - asset: assets/fonts/DMMono-Medium.ttf
-          weight: 500

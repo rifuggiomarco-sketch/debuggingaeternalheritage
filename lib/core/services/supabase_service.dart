@@ -5,10 +5,8 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:io';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:supabase/supabase.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:cryptography/cryptography.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart' as path;
 import 'package:uuid/uuid.dart';
 
@@ -19,7 +17,7 @@ class SupabaseService {
   SupabaseService._();
 
   late final SupabaseClient _supabase;
-  late final SupabaseStorageClient _storage;
+  late final StorageFileApi _storage;
   final Uuid _uuid = const Uuid();
 
   // Initialize Supabase with environment variables
@@ -27,10 +25,7 @@ class SupabaseService {
     try {
       await dotenv.load(fileName: '.env');
       
-      _supabase = Supabase.initialize(
-        url: dotenv.env['SUPABASE_URL'] ?? '',
-        anonKey: dotenv.env['SUPABASE_ANON_KEY'] ?? '',
-      );
+      _supabase = Supabase.instance.client;
       
       _storage = _supabase.storage.from('vault-files');
       
@@ -102,7 +97,7 @@ class SupabaseService {
       
       // Convert to base64 for storage
       final encryptedData = base64Encode(secretBox.cipherText);
-      final nonceBase64 = base64Encode(nonce.bytes);
+      final nonceBase64 = base64Encode(nonce);
       final keyBase64 = base64Encode(await secretKey.extractBytes());
       
       return {
@@ -130,7 +125,7 @@ class SupabaseService {
       final fileName = '${_uuid.v4()}$fileExtension';
       final filePath = '$userId/$fileName';
       
-      // Upload encrypted file
+      // Upload encrypted file using uploadBinary method
       final uploadResponse = await _storage.uploadBinary(
         filePath,
         base64Decode(encryptedInfo['encryptedData']),
@@ -188,7 +183,7 @@ class SupabaseService {
           .eq('user_id', userId)
           .single();
       
-      if (metadataResponse == null) {
+      if (metadataResponse.isEmpty) {
         throw Exception('File not found');
       }
       
@@ -228,12 +223,12 @@ class SupabaseService {
     try {
       final algorithm = AesGcm.with256bits();
       final secretKey = SecretKey(base64Decode(encryptionKey));
-      final nonceBytes = Nonce(base64Decode(nonce));
+      final nonceBytes = base64Decode(nonce);
       
       final secretBox = SecretBox(
         base64Decode(encryptedData),
         nonce: nonceBytes,
-        mac: Mac.empty, // Will be filled during decryption
+        mac: Mac.empty,
       );
       
       final decryptedBytes = await algorithm.decrypt(
@@ -241,7 +236,7 @@ class SupabaseService {
         secretKey: secretKey,
       );
       
-      return decryptedBytes;
+      return Uint8List.fromList(decryptedBytes);
     } catch (e) {
       print('File decryption error: $e');
       rethrow;
@@ -275,7 +270,7 @@ class SupabaseService {
           .eq('user_id', userId)
           .single();
       
-      if (metadataResponse == null) {
+      if (metadataResponse.isEmpty) {
         return false;
       }
       
@@ -452,5 +447,5 @@ class SupabaseService {
   SupabaseClient get supabaseClient => _supabase;
 
   // Get storage client for direct access
-  SupabaseStorageClient get storageClient => _storage;
+  StorageFileApi get storageClient => _storage;
 }

@@ -52,7 +52,7 @@ class SecurityService {
   factory SecurityService() => _instance;
   
   static const _storage = FlutterSecureStorage(
-    aOptions: AndroidOptions(encryptedSharedPreferences: true),
+    aOptions: AndroidOptions(),
   );
   
   static const _rateLimitPrefix = 'rate_limit_';
@@ -86,9 +86,9 @@ class SecurityService {
     // Remove potentially dangerous characters
     final sanitized = input
         .replaceAll(RegExp(r'[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]'), '') // Control characters
-        .replaceAll(RegExp(r'<script[^>]*>.*?</script>'), '', caseSensitive: false) // Script tags
-        .replaceAll(RegExp(r'javascript:'), '', caseSensitive: false) // JavaScript protocol
-        .replaceAll(RegExp(r'on\w+\s*='), '', caseSensitive: false); // Event handlers
+        .replaceAll(RegExp(r'<script[^>]*>.*?</script>', caseSensitive: false), '') // Script tags
+        .replaceAll(RegExp(r'javascript:', caseSensitive: false), '') // JavaScript protocol
+        .replaceAll(RegExp(r'on\w+\s*=', caseSensitive: false), ''); // Event handlers
     
     // Check for SQL injection patterns
     final sqlPatterns = [
@@ -271,7 +271,7 @@ class SecurityService {
     }
   }
   
-  /// Log security events for audit trail
+  /// Log security events for audit trail (private method)
   Future<void> _logSecurityEvent(
     String eventType, {
     String? userId,
@@ -303,6 +303,39 @@ class SecurityService {
     }
   }
   
+  /// Public method to log security events with optional timestamp
+  Future<void> logSecurityEvent(
+    String eventType, {
+    String? userId,
+    Map<String, dynamic>? metadata,
+    DateTime? timestamp,
+  }) async {
+    try {
+      final event = SecurityEvent(
+        eventType: eventType,
+        timestamp: timestamp ?? DateTime.now(),
+        userId: userId,
+        metadata: metadata,
+      );
+      
+      final prefs = await SharedPreferences.getInstance();
+      final logJson = prefs.getStringList(_auditLogKey) ?? [];
+      
+      logJson.add(jsonEncode(event.toJson()));
+      
+      // Keep only last 1000 events
+      if (logJson.length > 1000) {
+        logJson.removeRange(0, logJson.length - 1000);
+      }
+      
+      await prefs.setStringList(_auditLogKey, logJson);
+      
+      AppLogger.info('Security event logged: $eventType');
+    } catch (e) {
+      AppLogger.error('Failed to log security event', e);
+    }
+  }
+  
   /// Get recent security events
   Future<List<SecurityEvent>> getSecurityEvents({int limit = 50}) async {
     try {
@@ -310,7 +343,7 @@ class SecurityService {
       final logJson = prefs.getStringList(_auditLogKey) ?? [];
       
       final events = logJson
-          .map((json) => SecurityEvent.fromJson(jsonDecode(json) as Map<String, dynamic>))
+          .map((json) => SecurityEventExtension.fromJson(jsonDecode(json) as Map<String, dynamic>))
           .toList();
       
       // Sort by timestamp descending and limit

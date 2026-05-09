@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="direct_pix_payment">Betal direkte med Pix</string>
+    <string name="gpay_logo_description">Google Pay</string>
+    <string name="stripe_hcaptcha_loading_text">Bekreft at du er menneske</string>
+    <string name="wallet_buy_button_place_holder">Kjøp med Google</string>
+</resources>

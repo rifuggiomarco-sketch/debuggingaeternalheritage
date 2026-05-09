@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.aeterna.protocol.app-mergeDebugResources-87:/values-fy/values-fy.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\coldt\\.gradle\\caches\\8.11.1\\transforms\\21ec9a35f083f87f3a15288480fd7cdc\\transformed\\jetified-hcaptcha-23.1.0\\res\\values-fy\\values-fy.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "88",
+                        "endOffsets": "139"
+                    }
+                }
+            ]
+        }
+    ]
+}

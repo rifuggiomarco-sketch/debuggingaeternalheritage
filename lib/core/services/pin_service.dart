@@ -22,7 +22,7 @@ class PinService {
   static const _pinVersionKey = 'aeterna_pin_version';
 
   static const int _maxAttempts = 5;
-  static const SecurityService _security = SecurityService();
+  static final SecurityService _security = SecurityService();
 
   Future<bool> isPinSet() async {
     final h = await _storage.read(key: _pinHashKey);
