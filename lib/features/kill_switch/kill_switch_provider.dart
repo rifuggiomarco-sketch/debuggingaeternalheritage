@@ -18,9 +18,7 @@ class KillSwitchState {
     this.missedCount = 0,
   });
 
-  DateTime? get nextCheckIn => lastCheckIn == null
-      ? null
-      : lastCheckIn!.add(Duration(days: intervalDays));
+  DateTime? get nextCheckIn => lastCheckIn?.add(Duration(days: intervalDays));
 
   KillSwitchState copyWith({
     bool? isActive,

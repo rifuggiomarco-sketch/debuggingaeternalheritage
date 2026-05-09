@@ -100,7 +100,7 @@ class _SealedEnvelopeScreenState extends ConsumerState<SealedEnvelopeScreen> {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: AeternaColors.danger.withOpacity(0.1),
+              color: AeternaColors.danger.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
               border: Border.all(color: AeternaColors.danger),
             ),
@@ -182,7 +182,7 @@ class _SealedEnvelopeScreenState extends ConsumerState<SealedEnvelopeScreen> {
                 decoration: BoxDecoration(
                   color: AeternaColors.navyLight,
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: AeternaColors.gold.withOpacity(0.4)),
+                  border: Border.all(color: AeternaColors.gold.withValues(alpha: 0.4)),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

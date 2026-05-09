@@ -48,7 +48,7 @@ class AeternaTheme {
           letterSpacing: -0.5,
         ),
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: AeternaColors.navyLight,
         elevation: 0,
         shape: RoundedRectangleBorder(

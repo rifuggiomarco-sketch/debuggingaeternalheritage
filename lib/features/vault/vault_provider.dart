@@ -279,7 +279,7 @@ class VaultNotifier extends AsyncNotifier<List<VaultDoc>> {
       _validateDocument(doc);
       return true;
     } catch (e) {
-      AppLogger.warning('Invalid document found during load: ${doc.id}', e);
+      AppLogger.warning('Invalid document found during load: ${doc.id} - Error: $e');
       return false;
     }
   }
@@ -296,7 +296,7 @@ class VaultNotifier extends AsyncNotifier<List<VaultDoc>> {
       'sharedDocuments': sharedCount,
       'maxDocuments': _maxVaultSize,
       'maxDocumentSize': _maxDocumentSize,
-      'utilization': (current.length / _maxVaultSize * 100).toStringAsFixed(1) + '%',
+      'utilization': '${(current.length / _maxVaultSize * 100).toStringAsFixed(1)}%',
     };
   }
 }

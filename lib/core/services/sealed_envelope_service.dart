@@ -144,8 +144,8 @@ class SealedEnvelopeService {
   }
 
   Future<void> remove(String id) async {
-    final list = await list();
-    final filtered = list.where((e) => e.id != id).toList();
+    final envelopes = await list();
+    final filtered = envelopes.where((e) => e.id != id).toList();
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(
       _storeKey,
@@ -154,12 +154,12 @@ class SealedEnvelopeService {
   }
 
   Future<void> _persistAdd(SealedEnvelope env) async {
-    final list = await list();
-    list.add(env);
+    final envelopes = await list();
+    envelopes.add(env);
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(
       _storeKey,
-      jsonEncode(list.map((e) => e.toJson()).toList()),
+      jsonEncode(envelopes.map((e) => e.toJson()).toList()),
     );
   }
 

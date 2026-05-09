@@ -1,0 +1,510 @@
+// Localization Service for Digital Vault Heritage v3.0
+import 'dart:async';
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'app_en.dart';
+import 'app_it.dart';
+
+enum AppLanguage {
+  en('English', 'en', '🇺🇸'),
+  it('Italiano', 'it', '🇮🇹'),
+}
+
+class AppLanguage {
+  final String displayName;
+  final String code;
+  final String flag;
+
+  const AppLanguage(this.displayName, this.code, this.flag);
+}
+
+class AppLocalizations {
+  final Locale locale;
+
+  const AppLocalizations(this.locale);
+
+  // Helper methods
+  static AppLocalizations? of(BuildContext context) {
+    return Localizations.of<AppLocalizations>(context);
+  }
+
+  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
+  static const List<Locale> supportedLocales = [
+    Locale('en'),
+    Locale('it'),
+  ];
+
+  static bool isSupported(Locale locale) {
+    return supportedLocales.any((supportedLocale) => 
+        supportedLocale.languageCode == locale.languageCode);
+  }
+
+  // Get all localized strings based on current locale
+  String get(String key) {
+    switch (locale.languageCode) {
+      case 'it':
+        return _getItalianString(key);
+      case 'en':
+      default:
+        return _getEnglishString(key);
+    }
+  }
+
+  // English strings
+  String _getEnglishString(String key) {
+    switch (key) {
+      case 'appName': return AppLocalizationsEn.appName;
+      case 'appTagline': return AppLocalizationsEn.appTagline;
+      case 'getStarted': return AppLocalizationsEn.getStarted;
+      case 'skipForNow': return AppLocalizationsEn.skipForNow;
+      case 'continue': return AppLocalizationsEn.continueText;
+      case 'cancel': return AppLocalizationsEn.cancel;
+      case 'save': return AppLocalizationsEn.save;
+      case 'delete': return AppLocalizationsEn.delete;
+      case 'edit': return AppLocalizationsEn.edit;
+      case 'add': return AppLocalizationsEn.add;
+      case 'remove': return AppLocalizationsEn.remove;
+      case 'confirm': return AppLocalizationsEn.confirm;
+      case 'retry': return AppLocalizationsEn.retry;
+      case 'loading': return AppLocalizationsEn.loading;
+      case 'error': return AppLocalizationsEn.error;
+      case 'success': return AppLocalizationsEn.success;
+      case 'warning': return AppLocalizationsEn.warning;
+      case 'info': return AppLocalizationsEn.info;
+
+      // Authentication
+      case 'welcomeToDigitalVault': return AppLocalizationsEn.welcomeToDigitalVault;
+      case 'createYourPin': return AppLocalizationsEn.createYourPin;
+      case 'enterYourPin': return AppLocalizationsEn.enterYourPin;
+      case 'confirmPin': return AppLocalizationsEn.confirmPin;
+      case 'pinHint': return AppLocalizationsEn.pinHint;
+      case 'pinCreated': return AppLocalizationsEn.pinCreated;
+      case 'pinMismatch': return AppLocalizationsEn.pinMismatch;
+      case 'pinTooShort': return AppLocalizationsEn.pinTooShort;
+      case 'pinTooLong': return AppLocalizationsEn.pinTooLong;
+      case 'invalidPin': return AppLocalizationsEn.invalidPin;
+      case 'pinLocked': return AppLocalizationsEn.pinLocked;
+      case 'sessionExpired': return AppLocalizationsEn.sessionExpired;
+      case 'pleaseEnterPinAgain': return AppLocalizationsEn.pleaseEnterPinAgain;
+      case 'unlock': return AppLocalizationsEn.unlock;
+      case 'lock': return AppLocalizationsEn.lock;
+
+      // Biometric Authentication
+      case 'enableBiometricAuth': return AppLocalizationsEn.enableBiometricAuth;
+      case 'useBiometrics': return AppLocalizationsEn.useBiometrics;
+      case 'biometricNotAvailable': return AppLocalizationsEn.biometricNotAvailable;
+      case 'biometricAuthFailed': return AppLocalizationsEn.biometricAuthFailed;
+      case 'biometricSetupSuccess': return AppLocalizationsEn.biometricSetupSuccess;
+
+      // Vault Management
+      case 'yourDigitalVault': return AppLocalizationsEn.yourDigitalVault;
+      case 'noDocumentsYet': return AppLocalizationsEn.noDocumentsYet;
+      case 'addDocument': return AppLocalizationsEn.addDocument;
+      case 'uploadDocument': return AppLocalizationsEn.uploadDocument;
+      case 'documentName': return AppLocalizationsEn.documentName;
+      case 'selectFile': return AppLocalizationsEn.selectFile;
+      case 'documentUploaded': return AppLocalizationsEn.documentUploaded;
+      case 'uploadFailed': return AppLocalizationsEn.uploadFailed;
+      case 'networkError': return AppLocalizationsEn.networkError;
+      case 'unableToUploadFile': return AppLocalizationsEn.unableToUploadFile;
+      case 'fileSizeTooLarge': return AppLocalizationsEn.fileSizeTooLarge;
+      case 'unsupportedFileType': return AppLocalizationsEn.unsupportedFileType;
+
+      // Document Categories
+      case 'identity': return AppLocalizationsEn.identity;
+      case 'financial': return AppLocalizationsEn.financial;
+      case 'legal': return AppLocalizationsEn.legal;
+      case 'personal': return AppLocalizationsEn.personal;
+      case 'medical': return AppLocalizationsEn.medical;
+      case 'other': return AppLocalizationsEn.other;
+
+      // Document Details
+      case 'documentDetails': return AppLocalizationsEn.documentDetails;
+      case 'fileName': return AppLocalizationsEn.fileName;
+      case 'fileSize': return AppLocalizationsEn.fileSize;
+      case 'uploadedOn': return AppLocalizationsEn.uploadedOn;
+      case 'lastModified': return AppLocalizationsEn.lastModified;
+      case 'category': return AppLocalizationsEn.category;
+      case 'shareWithHeirs': return AppLocalizationsEn.shareWithHeirs;
+      case 'heirAccessLevel': return AppLocalizationsEn.heirAccessLevel;
+      case 'noAccess': return AppLocalizationsEn.noAccess;
+      case 'readOnly': return AppLocalizationsEn.readOnly;
+      case 'readWrite': return AppLocalizationsEn.readWrite;
+      case 'fullAccess': return AppLocalizationsEn.fullAccess;
+
+      // Dead Man's Switch
+      case 'deadMansSwitch': return AppLocalizationsEn.deadMansSwitch;
+      case 'activateDeadMansSwitch': return AppLocalizationsEn.activateDeadMansSwitch;
+      case 'deadMansSwitchActive': return AppLocalizationsEn.deadMansSwitchActive;
+      case 'deadMansSwitchInactive': return AppLocalizationsEn.deadMansSwitchInactive;
+      case 'checkInInterval': return AppLocalizationsEn.checkInInterval;
+      case 'maxMissedCheckIns': return AppLocalizationsEn.maxMissedCheckIns;
+      case 'gracePeriod': return AppLocalizationsEn.gracePeriod;
+      case 'hours': return AppLocalizationsEn.hours;
+      case 'days': return AppLocalizationsEn.days;
+      case 'weeks': return AppLocalizationsEn.weeks;
+      case 'months': return AppLocalizationsEn.months;
+      case 'years': return AppLocalizationsEn.years;
+
+      // Check-in System
+      case 'performCheckIn': return AppLocalizationsEn.performCheckIn;
+      case 'checkInSuccessful': return AppLocalizationsEn.checkInSuccessful;
+      case 'checkInFailed': return AppLocalizationsEn.checkInFailed;
+      case 'lastCheckIn': return AppLocalizationsEn.lastCheckIn;
+      case 'nextCheckInDue': return AppLocalizationsEn.nextCheckInDue;
+      case 'missedCheckIns': return AppLocalizationsEn.missedCheckIns;
+      case 'checkInChannels': return AppLocalizationsEn.checkInChannels;
+      case 'emailCheckIn': return AppLocalizationsEn.emailCheckIn;
+      case 'smsCheckIn': return AppLocalizationsEn.smsCheckIn;
+      case 'pushCheckIn': return AppLocalizationsEn.pushCheckIn;
+      case 'inAppCheckIn': return AppLocalizationsEn.inAppCheckIn;
+
+      // Grace Period
+      case 'gracePeriodActive': return AppLocalizationsEn.gracePeriodActive;
+      case 'timeRemaining': return AppLocalizationsEn.timeRemaining;
+      case 'cancelGracePeriod': return AppLocalizationsEn.cancelGracePeriod;
+      case 'heirsWillBeNotified': return AppLocalizationsEn.heirsWillBeNotified;
+      case 'gracePeriodCancelled': return AppLocalizationsEn.gracePeriodCancelled;
+      case 'emergencyProtocol': return AppLocalizationsEn.emergencyProtocol;
+
+      // Heir Management
+      case 'heirs': return AppLocalizationsEn.heirs;
+      case 'addHeir': return AppLocalizationsEn.addHeir;
+      case 'heirConfiguration': return AppLocalizationsEn.heirConfiguration;
+      case 'heirName': return AppLocalizationsEn.heirName;
+      case 'heirEmail': return AppLocalizationsEn.heirEmail;
+      case 'heirPhone': return AppLocalizationsEn.heirPhone;
+      case 'heirRelationship': return AppLocalizationsEn.heirRelationship;
+      case 'saveHeir': return AppLocalizationsEn.saveHeir;
+      case 'heirAdded': return AppLocalizationsEn.heirAdded;
+      case 'heirUpdated': return AppLocalizationsEn.heirUpdated;
+      case 'heirDeleted': return AppLocalizationsEn.heirDeleted;
+      case 'noHeirsConfigured': return AppLocalizationsEn.noHeirsConfigured;
+      case 'heirsConfigured': return AppLocalizationsEn.heirsConfigured;
+
+      // Settings
+      case 'settings': return AppLocalizationsEn.settings;
+      case 'generalSettings': return AppLocalizationsEn.generalSettings;
+      case 'language': return AppLocalizationsEn.language;
+      case 'theme': return AppLocalizationsEn.theme;
+      case 'darkTheme': return AppLocalizationsEn.darkTheme;
+      case 'lightTheme': return AppLocalizationsEn.lightTheme;
+      case 'systemTheme': return AppLocalizationsEn.systemTheme;
+      case 'notifications': return AppLocalizationsEn.notifications;
+      case 'about': return AppLocalizationsEn.about;
+      case 'version': return AppLocalizationsEn.version;
+      case 'privacyPolicy': return AppLocalizationsEn.privacyPolicy;
+      case 'termsOfService': return AppLocalizationsEn.termsOfService;
+      case 'contactSupport': return AppLocalizationsEn.contactSupport;
+
+      // Legal and Compliance
+      case 'legalPolicy': return AppLocalizationsEn.legalPolicy;
+      case 'termsAndConditions': return AppLocalizationsEn.termsAndConditions;
+      case 'dataProtection': return AppLocalizationsEn.dataProtection;
+      case 'gdprCompliance': return AppLocalizationsEn.gdprCompliance;
+      case 'ccpaCompliance': return AppLocalizationsEn.ccpaCompliance;
+      case 'zeroKnowledgeDefense': return AppLocalizationsEn.zeroKnowledgeDefense;
+      case 'notLegalAdvice': return AppLocalizationsEn.notLegalAdvice;
+
+      // Placeholders
+      case 'ownerDetails': return AppLocalizationsEn.ownerDetails;
+      case 'companyName': return AppLocalizationsEn.companyName;
+      case 'supportEmail': return AppLocalizationsEn.supportEmail;
+      case 'legalAddress': return AppLocalizationsEn.legalAddress;
+      case 'privacyContact': return AppLocalizationsEn.privacyContact;
+
+      default:
+        return key; // Return key if not found
+    }
+  }
+
+  // Italian strings
+  String _getItalianString(String key) {
+    try {
+      final appLocalizations = AppLocalizations.of(_context);
+      if (appLocalizations != null) {
+        switch (key) {
+          // App General
+          case 'appName': return appLocalizations.appName;
+          case 'appTagline': return appLocalizations.appTagline;
+          case 'getStarted': return appLocalizations.getStarted;
+          case 'skipForNow': return appLocalizations.skipForNow;
+          case 'continueText': return appLocalizations.continueText;
+          case 'cancel': return appLocalizations.cancel;
+          case 'save': return appLocalizations.save;
+          case 'delete': return appLocalizations.delete;
+          case 'edit': return appLocalizations.edit;
+          case 'add': return appLocalizations.add;
+          case 'remove': return appLocalizations.remove;
+          case 'confirm': return appLocalizations.confirm;
+          case 'retry': return appLocalizations.retry;
+          case 'loading': return appLocalizations.loading;
+          case 'error': return appLocalizations.error;
+          case 'success': return appLocalizations.success;
+          case 'warning': return appLocalizations.warning;
+          case 'info': return appLocalizations.info;
+
+          // Authentication
+          case 'welcomeToDigitalVault': return appLocalizations.welcomeToDigitalVault;
+          case 'createYourPin': return appLocalizations.createYourPin;
+          case 'enterYourPin': return appLocalizations.enterYourPin;
+          case 'confirmPin': return appLocalizations.confirmPin;
+          case 'pinHint': return appLocalizations.pinHint;
+          case 'pinCreated': return appLocalizations.pinCreated;
+          case 'pinMismatch': return appLocalizations.pinMismatch;
+          case 'pinTooShort': return appLocalizations.pinTooShort;
+          case 'pinTooLong': return appLocalizations.pinTooLong;
+          case 'invalidPin': return appLocalizations.invalidPin;
+          case 'pinLocked': return appLocalizations.pinLocked;
+          case 'sessionExpired': return appLocalizations.sessionExpired;
+          case 'pleaseEnterPinAgain': return appLocalizations.pleaseEnterPinAgain;
+          case 'unlock': return appLocalizations.unlock;
+          case 'lock': return appLocalizations.lock;
+
+          // Biometric Authentication
+          case 'enableBiometricAuth': return appLocalizations.enableBiometricAuth;
+          case 'useBiometrics': return appLocalizations.useBiometrics;
+          case 'biometricNotAvailable': return appLocalizations.biometricNotAvailable;
+          case 'biometricAuthFailed': return appLocalizations.biometricAuthFailed;
+          case 'biometricSetupSuccess': return appLocalizations.biometricSetupSuccess;
+
+          // Vault Management
+          case 'yourDigitalVault': return appLocalizations.yourDigitalVault;
+          case 'noDocumentsYet': return appLocalizations.noDocumentsYet;
+          case 'addDocument': return appLocalizations.addDocument;
+          case 'uploadDocument': return appLocalizations.uploadDocument;
+          case 'documentName': return appLocalizations.documentName;
+          case 'selectFile': return appLocalizations.selectFile;
+          case 'documentUploaded': return appLocalizations.documentUploaded;
+          case 'uploadFailed': return appLocalizations.uploadFailed;
+          case 'networkError': return appLocalizations.networkError;
+          case 'unableToUploadFile': return appLocalizations.unableToUploadFile;
+          case 'fileSizeTooLarge': return appLocalizations.fileSizeTooLarge;
+          case 'unsupportedFileType': return appLocalizations.unsupportedFileType;
+
+          // Document Categories
+          case 'identity': return appLocalizations.identity;
+          case 'financial': return appLocalizations.financial;
+          case 'legal': return appLocalizations.legal;
+          case 'personal': return appLocalizations.personal;
+          case 'medical': return appLocalizations.medical;
+          case 'other': return appLocalizations.other;
+
+          // Document Details
+          case 'documentDetails': return appLocalizations.documentDetails;
+          case 'fileName': return appLocalizations.fileName;
+          case 'fileSize': return appLocalizations.fileSize;
+          case 'uploadedOn': return appLocalizations.uploadedOn;
+          case 'lastModified': return appLocalizations.lastModified;
+          case 'category': return appLocalizations.category;
+          case 'shareWithHeirs': return appLocalizations.shareWithHeirs;
+          case 'heirAccessLevel': return appLocalizations.heirAccessLevel;
+          case 'noAccess': return appLocalizations.noAccess;
+          case 'readOnly': return appLocalizations.readOnly;
+          case 'readWrite': return appLocalizations.readWrite;
+          case 'fullAccess': return appLocalizations.fullAccess;
+
+          // Dead Man's Switch
+          case 'deadMansSwitch': return appLocalizations.deadMansSwitch;
+          case 'activateDeadMansSwitch': return appLocalizations.activateDeadMansSwitch;
+          case 'deadMansSwitchActive': return appLocalizations.deadMansSwitchActive;
+          case 'deadMansSwitchInactive': return appLocalizations.deadMansSwitchInactive;
+          case 'checkInInterval': return appLocalizations.checkInInterval;
+          case 'maxMissedCheckIns': return appLocalizations.maxMissedCheckIns;
+          case 'gracePeriod': return appLocalizations.gracePeriod;
+          case 'hours': return appLocalizations.hours;
+          case 'days': return appLocalizations.days;
+          case 'weeks': return appLocalizations.weeks;
+          case 'months': return appLocalizations.months;
+          case 'years': return appLocalizations.years;
+
+          // Check-in System
+          case 'performCheckIn': return appLocalizations.performCheckIn;
+          case 'checkInSuccessful': return appLocalizations.checkInSuccessful;
+          case 'checkInFailed': return appLocalizations.checkInFailed;
+          case 'lastCheckIn': return appLocalizations.lastCheckIn;
+          case 'nextCheckInDue': return appLocalizations.nextCheckInDue;
+          case 'missedCheckIns': return appLocalizations.missedCheckIns;
+          case 'checkInChannels': return appLocalizations.checkInChannels;
+          case 'emailCheckIn': return appLocalizations.emailCheckIn;
+          case 'smsCheckIn': return appLocalizations.smsCheckIn;
+          case 'pushCheckIn': return appLocalizations.pushCheckIn;
+          case 'inAppCheckIn': return appLocalizations.inAppCheckIn;
+
+          // Grace Period
+          case 'gracePeriodActive': return appLocalizations.gracePeriodActive;
+          case 'timeRemaining': return appLocalizations.timeRemaining;
+          case 'cancelGracePeriod': return appLocalizations.cancelGracePeriod;
+          case 'heirsWillBeNotified': return appLocalizations.heirsWillBeNotified;
+          case 'gracePeriodCancelled': return appLocalizations.gracePeriodCancelled;
+          case 'emergencyProtocol': return appLocalizations.emergencyProtocol;
+
+          // Heir Management
+          case 'heirs': return appLocalizations.heirs;
+          case 'addHeir': return appLocalizations.addHeir;
+          case 'heirConfiguration': return appLocalizations.heirConfiguration;
+          case 'heirName': return appLocalizations.heirName;
+          case 'heirEmail': return appLocalizations.heirEmail;
+          case 'heirPhone': return appLocalizations.heirPhone;
+          case 'heirRelationship': return appLocalizations.heirRelationship;
+          case 'saveHeir': return appLocalizations.saveHeir;
+          case 'heirAdded': return appLocalizations.heirAdded;
+          case 'heirUpdated': return appLocalizations.heirUpdated;
+          case 'heirDeleted': return appLocalizations.heirDeleted;
+          case 'noHeirsConfigured': return appLocalizations.noHeirsConfigured;
+          case 'heirsConfigured': return appLocalizations.heirsConfigured;
+
+          // Settings
+          case 'settings': return appLocalizations.settings;
+          case 'generalSettings': return appLocalizations.generalSettings;
+          case 'language': return appLocalizations.language;
+          case 'theme': return appLocalizations.theme;
+          case 'darkTheme': return appLocalizations.darkTheme;
+          case 'lightTheme': return appLocalizations.lightTheme;
+          case 'systemTheme': return appLocalizations.systemTheme;
+          case 'notifications': return appLocalizations.notifications;
+          case 'about': return appLocalizations.about;
+          case 'version': return appLocalizations.version;
+          case 'privacyPolicy': return appLocalizations.privacyPolicy;
+          case 'termsOfService': return appLocalizations.termsOfService;
+          case 'contactSupport': return appLocalizations.contactSupport;
+
+          // Legal and Compliance
+          case 'legalPolicy': return appLocalizations.legalPolicy;
+          case 'termsAndConditions': return appLocalizations.termsAndConditions;
+          case 'dataProtection': return appLocalizations.dataProtection;
+          case 'gdprCompliance': return appLocalizations.gdprCompliance;
+          case 'ccpaCompliance': return appLocalizations.ccpaCompliance;
+          case 'zeroKnowledgeDefense': return appLocalizations.zeroKnowledgeDefense;
+          case 'notLegalAdvice': return appLocalizations.notLegalAdvice;
+
+          // Placeholders
+          case 'ownerDetails': return appLocalizations.ownerDetails;
+          case 'companyName': return appLocalizations.companyName;
+          case 'supportEmail': return appLocalizations.supportEmail;
+          case 'legalAddress': return appLocalizations.legalAddress;
+          case 'privacyContact': return appLocalizations.privacyContact;
+
+          // Help and Support
+          case 'help': return appLocalizations.help;
+          case 'faq': return appLocalizations.faq;
+          case 'tutorial': return appLocalizations.tutorial;
+          case 'contactUs': return appLocalizations.contactUs;
+          case 'feedback': return appLocalizations.feedback;
+          case 'reportIssue': return appLocalizations.reportIssue;
+
+          // Statistics and Analytics
+          case 'statistics': return appLocalizations.statistics;
+          case 'vaultStatistics': return appLocalizations.vaultStatistics;
+          case 'totalVaultSize': return appLocalizations.totalVaultSize;
+          case 'documentsByCategory': return appLocalizations.documentsByCategory;
+          case 'heirActivity': return appLocalizations.heirActivity;
+          case 'securityEvents': return appLocalizations.securityEvents;
+          case 'lastLogin': return appLocalizations.lastLogin;
+          case 'failedLogins': return appLocalizations.failedLogins;
+
+          default:
+            return key; // Return key if not found
+        }
+      }
+    } catch (e) {
+      // Fallback to key if AppLocalizations is not available
+      return key;
+    }
+    return key; // Return key if not found
+  }
+
+class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
+  const _AppLocalizationsDelegate();
+
+  @override
+  bool isSupported(Locale locale) {
+    return AppLocalizations.isSupported(locale);
+  }
+
+  @override
+  Future<AppLocalizations> load(Locale locale) async {
+    return AppLocalizations(locale);
+  }
+
+  @override
+  bool shouldReload(LocalizationsDelegate<AppLocalizations> old) => false;
+}
+
+class LocalizationService {
+  static LocalizationService? _instance;
+  static LocalizationService get instance => _instance ??= LocalizationService._();
+
+  LocalizationService._();
+
+  final _localeController = StreamController<Locale>.broadcast();
+  Stream<Locale> get localeStream => _localeController.stream;
+
+  Locale _currentLocale = const Locale('en');
+  Locale get currentLocale => _currentLocale;
+
+  static const String _localeKey = 'app_locale';
+
+  Future<void> initialize() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final savedLocaleCode = prefs.getString(_localeKey);
+      
+      if (savedLocaleCode != null) {
+        _currentLocale = Locale(savedLocaleCode!);
+      } else {
+        // Detect system locale
+        final systemLocale = WidgetsBinding.instance.platformDispatcher.locale;
+        if (systemLocale.languageCode == 'it') {
+          _currentLocale = const Locale('it');
+        } else {
+          _currentLocale = const Locale('en');
+        }
+        await saveLocale(_currentLocale);
+      }
+    } catch (e) {
+      // Fallback to English
+      _currentLocale = const Locale('en');
+    }
+  }
+
+  Future<void> changeLanguage(Locale locale) async {
+    if (_currentLocale != locale) {
+      _currentLocale = locale;
+      await saveLocale(locale);
+      _localeController.add(locale);
+    }
+  }
+
+  Future<void> saveLocale(Locale locale) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(_localeKey, locale.languageCode);
+    } catch (e) {
+      // Handle error silently
+    }
+  }
+
+  AppLanguage getLanguageForLocale(Locale locale) {
+    for (final language in AppLanguage.values) {
+      if (language.code == locale.languageCode) {
+        return language;
+      }
+    }
+    return AppLanguage.en; // Default to English
+  }
+
+  List<AppLanguage> get supportedLanguages => AppLanguage.values;
+}
+
+// Extension method for easy access to localized strings
+extension LocalizedString on String {
+  String tr(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
+    return localizations?.get(this) ?? this;
+  }
+}

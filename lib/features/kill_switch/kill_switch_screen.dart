@@ -103,9 +103,9 @@ class _InfoCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: AeternaColors.gold.withOpacity(0.08),
+        color: AeternaColors.gold.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AeternaColors.gold.withOpacity(0.3)),
+        border: Border.all(color: AeternaColors.gold.withValues(alpha: 0.3)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,7 +158,7 @@ class _SetupCard extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                 decoration: BoxDecoration(
                   color: selected
-                      ? AeternaColors.gold.withOpacity(0.15)
+                      ? AeternaColors.gold.withValues(alpha: 0.15)
                       : AeternaColors.navyLight,
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
@@ -207,7 +207,7 @@ class _ActiveStatus extends StatelessWidget {
           decoration: BoxDecoration(
             color: AeternaColors.navyLight,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AeternaColors.success.withOpacity(0.4)),
+            border: Border.all(color: AeternaColors.success.withValues(alpha: 0.4)),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -303,10 +303,10 @@ class _Step extends StatelessWidget {
               width: 28,
               height: 28,
               decoration: BoxDecoration(
-                color: AeternaColors.gold.withOpacity(0.15),
+                color: AeternaColors.gold.withValues(alpha: 0.15),
                 shape: BoxShape.circle,
                 border:
-                    Border.all(color: AeternaColors.gold.withOpacity(0.4)),
+                    Border.all(color: AeternaColors.gold.withValues(alpha: 0.4)),
               ),
               child: Center(
                 child: Text(

@@ -8,6 +8,7 @@ import '../../core/theme/app_theme.dart';
 import '../vault/vault_provider.dart';
 import '../heirs/heirs_provider.dart';
 import '../kill_switch/kill_switch_provider.dart';
+import '../../shared/models/heir.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -121,7 +122,7 @@ class _SwitchStatusCard extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
-                  color: statusColor.withOpacity(0.15),
+                  color: statusColor.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
@@ -294,7 +295,7 @@ class _VaultSummaryCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: AeternaColors.gold.withOpacity(0.1),
+              color: AeternaColors.gold.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(10),
             ),
             child: const Icon(Icons.lock_outline,
@@ -346,7 +347,7 @@ class _HeirTile extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 18,
-            backgroundColor: AeternaColors.gold.withOpacity(0.2),
+            backgroundColor: AeternaColors.gold.withValues(alpha: 0.2),
             child: Text(
               initials,
               style: const TextStyle(
@@ -439,9 +440,9 @@ class _ErrorCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AeternaColors.danger.withOpacity(0.1),
+        color: AeternaColors.danger.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AeternaColors.danger.withOpacity(0.4)),
+        border: Border.all(color: AeternaColors.danger.withValues(alpha: 0.4)),
       ),
       child: Text(message,
           style: const TextStyle(color: AeternaColors.danger)),

@@ -2,14 +2,12 @@
 // Comprehensive security audit logging with offline resilience and forensic capabilities
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import '../logger.dart';
-import 'security_service.dart';
 
 enum SecurityLogLevel {
   info,

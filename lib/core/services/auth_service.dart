@@ -1,5 +1,6 @@
 // v2.3 — Servizio di autenticazione biometrica con fallback PIN.
 import 'package:local_auth/local_auth.dart';
+import 'package:local_auth_android/local_auth_android.dart';
 
 class AuthService {
   final LocalAuthentication _auth = LocalAuthentication();

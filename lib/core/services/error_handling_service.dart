@@ -2,7 +2,6 @@
 // Provides comprehensive error handling, user feedback, and recovery mechanisms
 import 'dart:async';
 import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../logger.dart';
@@ -73,7 +72,7 @@ class AppError {
     timestamp: DateTime.parse(json['timestamp'] as String),
     userId: json['userId'] as String?,
     context: json['context'] as Map<String, dynamic>?,
-    suggestedActions: (json['suggestedActions'] as List<dynamic>)?.cast<String>(),
+    suggestedActions: (json['suggestedActions'] as List<dynamic>).cast<String>(),
   );
 }
 

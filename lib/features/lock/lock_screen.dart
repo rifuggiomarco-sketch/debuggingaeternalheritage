@@ -88,8 +88,12 @@ class _LockScreenState extends ConsumerState<LockScreen> {
         break;
       case PinVerifyResult.lockedOut:
         setState(() {
-          _error = 'PIN bloccato. Usa la Recovery Key.';
-          _showRecovery = true;
+          _error = 'Account bloccato per troppi tentativi falliti';
+        });
+        break;
+      case PinVerifyResult.rateLimited:
+        setState(() {
+          _error = 'Troppi tentativi. Riprova più tardi';
         });
         break;
       case PinVerifyResult.notSet:
@@ -155,7 +159,7 @@ class _LockScreenState extends ConsumerState<LockScreen> {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: AeternaColors.danger.withOpacity(0.1),
+                    color: AeternaColors.danger.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(color: AeternaColors.danger),
                   ),

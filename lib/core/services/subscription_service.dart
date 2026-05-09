@@ -2,10 +2,9 @@
 // Manages subscription tiers, payments, and license activation
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
+import 'dart:math';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../logger.dart';
 import 'security_service.dart';
@@ -617,7 +616,7 @@ class SubscriptionService {
   /// Generate unique ID
   String _generateId() {
     return DateTime.now().millisecondsSinceEpoch.toString() + 
-           Random().nextInt(10000).toString();
+           Random.secure().nextInt(10000).toString();
   }
 }
 

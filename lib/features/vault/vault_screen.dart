@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:file_picker/file_picker.dart';
 
-import '../../core/providers.dart';
 import '../../core/theme/app_theme.dart';
 import '../../shared/models/vault_doc.dart';
 import 'vault_provider.dart';
+import '../../core/providers.dart';
 
 class VaultScreen extends ConsumerWidget {
   const VaultScreen({super.key});
@@ -57,7 +57,7 @@ class VaultScreen extends ConsumerWidget {
   }
 
   Future<void> _uploadDocument(BuildContext context, WidgetRef ref) async {
-    final result = await FilePicker.platform.pickFiles(
+    final result = await FilePicker.pickFiles(
       type: FileType.any,
       allowMultiple: false,
       withData: true,
@@ -90,7 +90,7 @@ class VaultScreen extends ConsumerWidget {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Errore: $e'),
-            backgroundColor: AeternaColors.danger.withOpacity(0.2),
+            backgroundColor: AeternaColors.danger.withValues(alpha: 0.2),
           ),
         );
       }
@@ -150,7 +150,7 @@ class _DocCard extends StatelessWidget {
           width: 42,
           height: 42,
           decoration: BoxDecoration(
-            color: AeternaColors.gold.withOpacity(0.12),
+            color: AeternaColors.gold.withValues(alpha: 0.12),
             borderRadius: BorderRadius.circular(8),
           ),
           child: const Icon(Icons.lock_outline,
@@ -237,7 +237,7 @@ class _EmptyVaultView extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(28),
               decoration: BoxDecoration(
-                color: AeternaColors.gold.withOpacity(0.08),
+                color: AeternaColors.gold.withValues(alpha: 0.08),
                 shape: BoxShape.circle,
               ),
               child: const Icon(

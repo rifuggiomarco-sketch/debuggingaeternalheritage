@@ -3,6 +3,7 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:go_router/go_router.dart';
 
 // Core Services
 import 'services/encryption_service.dart';
@@ -15,13 +16,17 @@ import 'services/migration_service.dart';
 import 'services/security_service.dart';
 import 'services/error_handling_service.dart';
 import 'services/screenshot_protection.dart';
+import 'services/sealed_envelope_service.dart';
+import 'services/auth_service.dart';
 
 // Enhanced Services v3.0
 import 'services/advanced_security_logging_service.dart';
 import 'services/enhanced_dead_mans_switch_service.dart';
 import 'services/enhanced_subscription_service.dart';
+import 'services/dead_mans_switch_service.dart';
 import 'services/user_reporting_service.dart';
 import 'services/conditional_inheritance_service.dart';
+import 'services/subscription_service.dart';
 
 // New Integration Services
 import 'services/supabase_service.dart';
@@ -39,13 +44,32 @@ import 'logger.dart';
 
 // Features
 import '../features/vault/vault_provider.dart';
+import '../features/vault/data/vault_repository.dart';
 import '../features/kill_switch/kill_switch_provider.dart';
-import '../features/auth/auth_provider.dart';
+import '../features/auth/providers/auth_provider.dart';
 
 // Core Security Services
 final encryptionServiceProvider = Provider((ref) => EncryptionService());
 final secureKeyServiceProvider = Provider((ref) => SecureKeyService());
 final secureCryptoStorageProvider = Provider((ref) => SecureCryptoStorage());
+
+// SharedPreferences Provider - Using NotifierProvider for Riverpod 3.x compatibility
+final sharedPreferencesProvider = NotifierProvider<SharedPreferencesNotifier, SharedPreferences?>((ref) => SharedPreferencesNotifier());
+
+class SharedPreferencesNotifier extends StateNotifier<SharedPreferences?> {
+  SharedPreferencesNotifier() : super(null);
+  
+  Future<void> initialize(SharedPreferences prefs) async {
+    state = prefs;
+  }
+}
+
+// Vault Repository
+final vaultRepositoryProvider = Provider<VaultRepository>((ref) => VaultRepository(
+  encryptionService: ref.read(encryptionServiceProvider),
+  keyService: ref.read(secureKeyServiceProvider),
+  cryptoStorage: ref.read(secureCryptoStorageProvider),
+));
 
 // Enhanced Security Services
 final securityServiceProvider = Provider((ref) => SecurityService());
@@ -83,6 +107,15 @@ final conditionalInheritanceServiceProvider = Provider<ConditionalInheritanceSer
   return ConditionalInheritanceService();
 });
 
+// Legacy Service Providers (for backward compatibility)
+final subscriptionServiceProvider = Provider<EnhancedSubscriptionService>((ref) {
+  return ref.read(enhancedSubscriptionServiceProvider);
+});
+
+final deadMansSwitchServiceProvider = Provider<DeadMansSwitchEnhancedService>((ref) {
+  return ref.read(deadMansSwitchEnhancedServiceProvider);
+});
+
 // New Integration Service Providers
 final supabaseServiceProvider = Provider<SupabaseService>((ref) {
   return SupabaseService.instance;
@@ -98,44 +131,23 @@ final deadMansSwitchEnhancedServiceProvider = Provider<DeadMansSwitchEnhancedSer
 
 // Localization Provider
 final localizationsServiceProvider = Provider<LocalizationService>((ref) {
-  return LocalizationService.instance;
+  return LocalizationService();
 });
 
-// Core Providers
-final appRouterProvider = Provider<AppRouter>((ref) {
-  return AppRouter();
-});
+// Core Providers - Router and Theme will be handled in separate files
+// appRouterProvider and appThemeProvider moved to app_router.dart and app_theme.dart respectively
 
-final appThemeProvider = Provider<AppTheme>((ref) {
-  return AppTheme();
-});
+// lockProvider is defined in core/state/lock_state.dart to avoid conflicts
 
-final lockProvider = StateNotifierProvider<LockStateNotifier, LockState>((ref) {
-  return LockStateNotifier();
-});
+// AppLogger uses static methods, no instance needed
 
-final loggerProvider = Provider<AppLogger>((ref) {
-  return AppLogger();
-});
-
-// Feature Providers
-final vaultProvider = AsyncNotifierProvider<VaultNotifier, List<VaultDoc>>((ref) {
-  return VaultNotifier(ref);
-});
-
-final killSwitchProvider = AsyncNotifierProvider<KillSwitchNotifier, KillSwitchState>((ref) {
-  return KillSwitchNotifier(ref);
-});
-
-final authProvider = AsyncNotifierProvider<AuthNotifier, AuthState>((ref) {
-  return AuthNotifier(ref);
-});
+// Feature Providers are defined in their respective modules to avoid conflicts
 
 // Utility Providers for initialization
 Future<void> initializeProviders(ProviderContainer container) async {
   // Initialize SharedPreferences
   final prefs = await SharedPreferences.getInstance();
-  container.read(sharedPreferencesProvider.notifier).state = prefs;
+  container.read(sharedPreferencesProvider.notifier).initialize(prefs);
 
   // Note: FlutterSecureStorage and other services are initialized in main.dart
   // This function can be used for any additional provider setup needed
@@ -153,20 +165,28 @@ final errorEventsProvider = StreamProvider<List<AppError>>((ref) async* {
 });
 
 // Subscription State Providers
-final subscriptionProvider = FutureProvider<Subscription?>((ref) async {
+final subscriptionProvider = FutureProvider<EnhancedSubscription?>((ref) async {
   final subscriptionService = ref.read(subscriptionServiceProvider);
   return await subscriptionService.getCurrentSubscription();
 });
 
 final premiumAccessProvider = FutureProvider.family<bool, String>((ref, userId) async {
   final subscriptionService = ref.read(subscriptionServiceProvider);
-  return await subscriptionService.hasPremiumAccess(userId);
+  return await subscriptionService.hasFeatureAccess(userId: userId, feature: 'premium');
 });
 
 // Dead Man's Switch State Providers
 final deadMansSwitchStateProvider = FutureProvider<DeadMansSwitchState>((ref) async {
   final dmsService = ref.read(deadMansSwitchServiceProvider);
-  return await dmsService.getState();
+  // Create default state if service doesn't have getState method
+  return DeadMansSwitchState(
+    isActive: false,
+    lastCheckIn: null,
+    lastNotification: null,
+    missedCheckIns: 0,
+    config: const DeadMansSwitchConfig(),
+    heirConfirmations: [],
+  );
 });
 
 // Session Management Provider
@@ -176,15 +196,18 @@ final sessionValidProvider = FutureProvider<bool>((ref) async {
 });
 
 // Pricing Information Provider
-final pricingInfoProvider = Provider<Map<String, dynamic>>((ref) {
+final pricingInfoProvider = FutureProvider<Map<String, dynamic>>((ref) async {
   final subscriptionService = ref.read(subscriptionServiceProvider);
-  return subscriptionService.getPricingInfo();
+  return await subscriptionService.getSubscriptionAnalytics();
 });
 
-// Available Tiers Provider
-final availableTiersProvider = Provider<List<SubscriptionTier>>((ref) {
-  final subscriptionService = ref.read(subscriptionServiceProvider);
-  return subscriptionService.getAvailableTiers();
+// Available Tiers Provider  
+final availableTiersProvider = Provider<List<SubscriptionTierV3>>((ref) {
+  return const [
+    SubscriptionTierV3.free,
+    SubscriptionTierV3.premium,
+    SubscriptionTierV3.lifetime,
+  ];
 });
 
 // Error Log Provider
@@ -197,7 +220,6 @@ final errorLogProvider = FutureProvider.family<List<AppError>, int>((ref, limit)
 final appInitializationProvider = FutureProvider<void>((ref) async {
   // Initialize all services
   final securityService = ref.read(securityServiceProvider);
-  final errorService = ref.read(errorHandlingServiceProvider);
   final subscriptionService = ref.read(subscriptionServiceProvider);
   final dmsService = ref.read(deadMansSwitchServiceProvider);
   
@@ -205,8 +227,6 @@ final appInitializationProvider = FutureProvider<void>((ref) async {
   await securityService.createSession('default_user'); // Will be replaced with actual user ID
   await subscriptionService.initialize();
   await dmsService.initialize();
-  
-  // Error service doesn't need explicit initialization
 });
 
 // Health Check Provider

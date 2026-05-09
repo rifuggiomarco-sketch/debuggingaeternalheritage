@@ -2,7 +2,7 @@
 // Provides periodic vault status reports and user analytics
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
+import 'dart:math';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -931,7 +931,7 @@ class UserReportingService {
   }
 
   String _generateReportId() {
-    return 'report_${DateTime.now().millisecondsSinceEpoch}_${Random().nextInt(10000)}';
+    return 'report_${DateTime.now().millisecondsSinceEpoch}_${Random.secure().nextInt(10000)}';
   }
 
   /// Dispose resources

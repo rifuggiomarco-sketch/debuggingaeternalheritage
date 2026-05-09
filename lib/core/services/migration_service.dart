@@ -2,7 +2,6 @@
 // Chiamata al primo unlock dopo upgrade. Idempotente: usa flag persistito.
 import 'dart:convert';
 
-import 'package:cryptography/cryptography.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

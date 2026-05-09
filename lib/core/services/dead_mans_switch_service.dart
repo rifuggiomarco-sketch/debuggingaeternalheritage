@@ -4,8 +4,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 
 import '../logger.dart';
 import 'security_service.dart';

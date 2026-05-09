@@ -18,6 +18,8 @@ class AppLocalizations {
   static const String retry = 'Retry';
   static const String loading = 'Loading...';
   static const String error = 'Error';
+  static const String hello = 'Hello';
+  static const String welcome = 'Welcome';
   static const String success = 'Success';
   static const String warning = 'Warning';
   static const String info = 'Information';

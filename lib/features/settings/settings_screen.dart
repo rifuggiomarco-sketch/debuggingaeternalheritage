@@ -109,7 +109,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             subtitle: 'Face ID / Impronta digitale',
             trailing: Switch(
               value: true,
-              activeColor: AeternaColors.gold,
+              activeThumbColor: AeternaColors.gold,
               onChanged: (_) {},
             ),
           ),
@@ -119,7 +119,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             subtitle: 'FLAG_SECURE attivo (Android)',
             trailing: Switch(
               value: _screenshotBlocked,
-              activeColor: AeternaColors.gold,
+              activeThumbColor: AeternaColors.gold,
               onChanged: _toggleScreenshot,
             ),
           ),
@@ -250,12 +250,12 @@ class _PremiumCard extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AeternaColors.gold.withOpacity(0.15),
-            AeternaColors.gold.withOpacity(0.05),
+            AeternaColors.gold.withValues(alpha: 0.15),
+            AeternaColors.gold.withValues(alpha: 0.05),
           ],
         ),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AeternaColors.gold.withOpacity(0.4)),
+        border: Border.all(color: AeternaColors.gold.withValues(alpha: 0.4)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

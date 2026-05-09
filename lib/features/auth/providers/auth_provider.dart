@@ -1,6 +1,4 @@
-// v2.4 — Auth provider semplificato: usa l'EncryptionService via Riverpod
-// (instance) e PBKDF2 per derivare un hash stabile dalla password.
-// NON salviamo la password in chiaro né la key derivata: solo l'hash.
+// Simple Auth Provider for Digital Vault Heritage v3.0
 import 'dart:convert';
 import 'dart:math';
 
@@ -24,15 +22,17 @@ class AuthState {
       );
 }
 
-class AuthNotifier extends StateNotifier<AuthState> {
+class AuthNotifier extends Notifier<AuthState> {
   static const _storage = FlutterSecureStorage(
     aOptions: AndroidOptions(encryptedSharedPreferences: true),
   );
   static const _hashKey = 'master_hash';
   static const _saltKey = 'auth_salt';
 
-  AuthNotifier() : super(const AuthState()) {
+  @override
+  AuthState build() {
     _checkStatus();
+    return const AuthState();
   }
 
   Future<void> _checkStatus() async {
@@ -82,24 +82,26 @@ class AuthNotifier extends StateNotifier<AuthState> {
       secretKey: SecretKey(utf8.encode(password)),
       nonce: salt,
     );
-    final bytes = await key.extractBytes();
-    return base64Encode(bytes);
+    final keyBytes = await key.extractBytes();
+    return base64Encode(keyBytes);
   }
 
-  static List<int> _randomBytes(int n) {
-    final r = Random.secure();
-    return List<int>.generate(n, (_) => r.nextInt(256));
+  static List<int> _randomBytes(int length) {
+    final random = Random.secure();
+    return List<int>.generate(length, (_) => random.nextInt(256));
   }
 
   static bool _constantTimeEquals(List<int> a, List<int> b) {
     if (a.length != b.length) return false;
-    var diff = 0;
-    for (var i = 0; i < a.length; i++) {
-      diff |= a[i] ^ b[i];
+    int result = 0;
+    for (int i = 0; i < a.length; i++) {
+      result |= a[i] ^ b[i];
     }
-    return diff == 0;
+    return result == 0;
   }
 }
 
-final authProvider =
-    StateNotifierProvider<AuthNotifier, AuthState>((ref) => AuthNotifier());
+// Provider
+final authProvider = NotifierProvider<AuthNotifier, AuthState>(
+  AuthNotifier.new,
+);

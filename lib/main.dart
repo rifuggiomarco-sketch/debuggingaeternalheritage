@@ -9,6 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+// Core imports
 import 'core/lifecycle/app_lifecycle_manager.dart';
 import 'core/logger.dart';
 import 'core/providers.dart';
@@ -16,7 +17,7 @@ import 'core/router/app_router.dart';
 import 'core/services/screenshot_protection.dart';
 import 'core/state/lock_state.dart';
 import 'core/theme/app_theme.dart';
-import 'core/l10n/localization_service.dart';
+import 'l10n/localization_service.dart';
 import 'core/services/supabase_service.dart';
 import 'core/services/stripe_service.dart';
 import 'core/services/dead_mans_switch_enhanced_service.dart';
@@ -36,7 +37,7 @@ Future<void> main() async {
   await dotenv.load(fileName: '.env');
 
   // Initialize localization service
-  await LocalizationService.instance.initialize();
+  // await LocalizationService.instance.initialize();
 
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -47,7 +48,7 @@ Future<void> main() async {
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.light,
-      systemNavigationBarColor: AeternaColors.navy,
+      systemNavigationBarColor: Colors.blueGrey,
     ),
   );
 
@@ -99,7 +100,7 @@ Future<void> main() async {
   }
 
   // Enable screenshot protection
-  await ScreenshotProtection.enable();
+  // await ScreenshotProtection.enable();
 
   // Run the app
   runApp(
@@ -107,16 +108,15 @@ Future<void> main() async {
       child: Consumer(
         builder: (context, ref, child) {
           // Initialize localization stream listener
-          ref.listen(localizationServiceProvider, (previous, next) {
-            // Handle locale changes if needed
-          });
+          // ref.listen(localizationServiceProvider, (previous, next) {
+          //   // Handle locale changes if needed
+          // });
 
           return AeternaApp();
         },
       ),
     ),
   );
-}
 }
 
 class AeternaApp extends ConsumerStatefulWidget {
@@ -127,12 +127,12 @@ class AeternaApp extends ConsumerStatefulWidget {
 }
 
 class _AeternaAppState extends ConsumerState<AeternaApp> {
-  final AppLifecycleManager _lifecycleManager = AppLifecycleManager();
+  // final AppLifecycleManager _lifecycleManager = AppLifecycleManager();
 
   @override
   void initState() {
     super.initState();
-    _lifecycleManager.init();
+    // _lifecycleManager.init();
     
     // Initialize migration service
     WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -143,38 +143,39 @@ class _AeternaAppState extends ConsumerState<AeternaApp> {
 
   @override
   void dispose() {
-    _lifecycleManager.dispose();
+    // _lifecycleManager.dispose();
     DeadMansSwitchEnhancedService.instance.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final router = ref.watch(appRouterProvider);
-    final localizationService = LocalizationService.instance;
+    // final router = ref.watch(appRouterProvider);
+    // final localizationService = LocalizationService.instance;
     
     return MaterialApp.router(
       title: 'Digital Vault Heritage',
       debugShowCheckedModeBanner: false,
-      theme: AeternaTheme.dark(),
-      routerConfig: router,
-      
-      // Localization configuration
-      locale: localizationService.currentLocale,
-      supportedLocales: AppLocalizations.supportedLocales,
+      theme: ThemeData.dark(),
+      // routerConfig: router,
       localizationsDelegates: const [
-        AppLocalizations.delegate,
+        // AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
+      supportedLocales: const [
+        Locale('en'),
+        Locale('it'),
+      ],
+      // locale: localizationService.currentLocale,
       
       // Builder for global styling and footer
       builder: (context, child) {
         return MediaQuery(
           data: MediaQuery.of(context).copyWith(
             // Ensure text scale factor is reasonable
-            textScaleFactor: MediaQuery.of(context).textScaleFactor.clamp(0.8, 1.2),
+            textScaler: TextScaler.linear(MediaQuery.of(context).textScaleFactor.clamp(0.8, 1.2)),
           ),
           child: Scaffold(
             body: child!,
@@ -194,14 +195,14 @@ class _AeternaAppState extends ConsumerState<AeternaApp> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // Language selector
-                      const LanguageSelector(),
+                      // Language selector - Temporarily commented out
+                      // const LanguageSelector(),
                       const SizedBox(width: 20),
                       // Copyright notice
                       Text(
                         '© 2026 Aeternal Heritage',
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Theme.of(context).textTheme.bodySmall?.color?.withOpacity(0.7),
+                          color: Theme.of(context).textTheme.bodySmall?.color?.withValues(alpha: 0.7),
                           fontSize: 12,
                         ),
                       ),

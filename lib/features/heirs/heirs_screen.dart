@@ -82,7 +82,7 @@ class _HeirCard extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 22,
-            backgroundColor: AeternaColors.gold.withOpacity(0.15),
+            backgroundColor: AeternaColors.gold.withValues(alpha: 0.15),
             child: Text(
               heir.initials,
               style: const TextStyle(
@@ -113,7 +113,7 @@ class _HeirCard extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8, vertical: 3),
                       decoration: BoxDecoration(
-                        color: AeternaColors.success.withOpacity(0.1),
+                        color: AeternaColors.success.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: const Text('Verificato',
@@ -218,7 +218,7 @@ class _AddHeirSheetState extends State<_AddHeirSheet> {
           ),
           const SizedBox(height: 14),
           DropdownButtonFormField<HeirRelationship>(
-            value: _relation,
+            initialValue: _relation,
             dropdownColor: AeternaColors.navyDeep,
             style: const TextStyle(color: AeternaColors.offWhite),
             decoration: const InputDecoration(labelText: 'Relazione'),
@@ -235,7 +235,7 @@ class _AddHeirSheetState extends State<_AddHeirSheet> {
             children: [
               Switch(
                 value: _canViewAll,
-                activeColor: AeternaColors.gold,
+                activeThumbColor: AeternaColors.gold,
                 onChanged: (v) => setState(() => _canViewAll = v),
               ),
               const SizedBox(width: 10),
@@ -282,7 +282,7 @@ class _EmptyHeirsView extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(28),
               decoration: BoxDecoration(
-                color: AeternaColors.gold.withOpacity(0.08),
+                color: AeternaColors.gold.withValues(alpha: 0.08),
                 shape: BoxShape.circle,
               ),
               child: const Icon(Icons.people_outline,

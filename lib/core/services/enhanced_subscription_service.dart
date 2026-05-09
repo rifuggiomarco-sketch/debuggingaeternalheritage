@@ -2,10 +2,8 @@
 // Provides enterprise-grade subscription management with instant upgrades and comprehensive reporting
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../logger.dart';
 import 'security_service.dart';
@@ -659,9 +657,7 @@ class EnhancedSubscriptionService {
         'status': subscription.status.name,
         'isActive': subscription.isActive,
         'isTrialActive': subscription.isTrialActive,
-        'daysUntilRenewal': subscription.currentPeriodEnd != null
-            ? subscription.currentPeriodEnd!.difference(DateTime.now()).inDays
-            : null,
+        'daysUntilRenewal': subscription.currentPeriodEnd?.difference(DateTime.now()).inDays,
         'autoRenew': subscription.autoRenew,
         'lastPaymentDate': subscription.lastPaymentDate?.toIso8601String(),
         'failedPaymentAttempts': subscription.failedPaymentAttempts,
