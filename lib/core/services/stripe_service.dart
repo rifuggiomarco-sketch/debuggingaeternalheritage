@@ -17,7 +17,6 @@ class StripeService {
   final Uuid _uuid = const Uuid();
   late final String _stripeSecretKey;
   late final String _stripePublishableKey;
-  late final String _webhookSecret;
 
   // Initialize Stripe with environment variables
   Future<void> initialize() async {
@@ -26,7 +25,6 @@ class StripeService {
       
       _stripeSecretKey = dotenv.env['STRIPE_SECRET_KEY'] ?? '';
       _stripePublishableKey = dotenv.env['STRIPE_PUBLISHABLE_KEY'] ?? '';
-      _webhookSecret = dotenv.env['STRIPE_WEBHOOK_SECRET'] ?? '';
       
       // Initialize Stripe SDK
       Stripe.publishableKey = _stripePublishableKey;

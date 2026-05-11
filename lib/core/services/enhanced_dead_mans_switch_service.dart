@@ -270,8 +270,6 @@ class EnhancedDeadMansSwitchService {
   );
 
   static const _stateKey = 'enhanced_dead_mans_switch_state_v3';
-  static const _heartbeatKey = 'enhanced_dead_mans_switch_heartbeat';
-  static const _configKey = 'enhanced_dead_mans_switch_config';
 
   Timer? _heartbeatTimer;
   Timer? _monitorTimer;

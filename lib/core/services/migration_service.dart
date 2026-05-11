@@ -23,7 +23,6 @@ class MigrationService {
 
   static const _flagKey = 'aeterna_migration_v23_done';
   static const _legacySalt = 'aeterna_salt'; // <-- salt v2.2 hardcoded
-  static const _vaultDocsKey = 'aeterna_vault_docs';
 
   static const _storage = FlutterSecureStorage(
     aOptions: AndroidOptions(encryptedSharedPreferences: true),

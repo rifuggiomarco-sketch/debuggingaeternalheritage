@@ -2,7 +2,6 @@
 // Provides sophisticated inheritance rules and access control for heirs
 import 'dart:convert';
 import 'dart:math';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../logger.dart';
@@ -212,10 +211,6 @@ class ConditionalInheritanceService {
   ConditionalInheritanceService._();
   static final ConditionalInheritanceService _instance = ConditionalInheritanceService._();
   factory ConditionalInheritanceService() => _instance;
-
-  static const _storage = FlutterSecureStorage(
-    aOptions: AndroidOptions(encryptedSharedPreferences: true),
-  );
 
   static const _rulesKey = 'inheritance_rules_v3';
   static const _requestsKey = 'inheritance_requests_v3';

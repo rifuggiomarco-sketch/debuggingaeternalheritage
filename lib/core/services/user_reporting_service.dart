@@ -715,7 +715,6 @@ class UserReportingService {
 
   void _generateSubscriptionStatusHtml(StringBuffer buffer, Map<String, dynamic> data) {
     final subscription = data['currentSubscription'];
-    final analytics = data['analytics'];
     
     buffer.writeln('<div class="section">');
     buffer.writeln('<h2>Subscription Details</h2>');

@@ -57,7 +57,7 @@ class VaultScreen extends ConsumerWidget {
   }
 
   Future<void> _uploadDocument(BuildContext context, WidgetRef ref) async {
-    final result = await FilePicker.pickFiles(
+    final result = await FilePicker.platform.pickFiles(
       type: FileType.any,
       allowMultiple: false,
       withData: true,

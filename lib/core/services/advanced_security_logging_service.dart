@@ -3,7 +3,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -132,10 +131,6 @@ class AdvancedSecurityLoggingService {
   AdvancedSecurityLoggingService._();
   static final AdvancedSecurityLoggingService _instance = AdvancedSecurityLoggingService._();
   factory AdvancedSecurityLoggingService() => _instance;
-
-  static const _storage = FlutterSecureStorage(
-    aOptions: AndroidOptions(encryptedSharedPreferences: true),
-  );
 
   static const _logKey = 'security_log_v3';
   static const _bufferKey = 'security_log_buffer';
@@ -456,7 +451,7 @@ class AdvancedSecurityLoggingService {
       // Add to buffer for server sync
       await _addToBuffer(entry);
       
-      AppLogger.debug('Security log entry added: ${entry.event}');
+      AppLogger.info('Security log entry added: ${entry.event}');
     } catch (e, st) {
       AppLogger.error('Failed to log entry', e, st);
     }

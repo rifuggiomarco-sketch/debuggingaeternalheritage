@@ -136,11 +136,9 @@ class SubscriptionService {
   );
   
   static const _subscriptionKey = 'user_subscription';
-  static const _userIdKey = 'user_id';
-  
+
   // Stripe configuration - should be environment variables in production
   static const String _stripeSecretKey = 'sk_test_...'; // Replace with actual key
-  static const String _stripeWebhookSecret = 'whsec_...'; // Replace with actual secret
   static const String _baseUrl = 'https://api.stripe.com/v1';
   
   final SecurityService _security = SecurityService();

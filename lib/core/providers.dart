@@ -3,7 +3,6 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:go_router/go_router.dart';
 
 // Core Services
 import 'services/encryption_service.dart';
@@ -12,10 +11,8 @@ import 'services/secure_crypto_storage.dart';
 import 'services/pin_service.dart';
 import 'services/shamir_service.dart';
 import 'services/recovery_key_service.dart';
-import 'services/migration_service.dart';
 import 'services/security_service.dart';
 import 'services/error_handling_service.dart';
-import 'services/screenshot_protection.dart';
 import 'services/sealed_envelope_service.dart';
 import 'services/auth_service.dart';
 
@@ -26,7 +23,6 @@ import 'services/enhanced_subscription_service.dart';
 import 'services/dead_mans_switch_service.dart';
 import 'services/user_reporting_service.dart';
 import 'services/conditional_inheritance_service.dart';
-import 'services/subscription_service.dart';
 
 // New Integration Services
 import 'services/supabase_service.dart';
@@ -36,29 +32,21 @@ import 'services/dead_mans_switch_enhanced_service.dart';
 // Localization
 import '../l10n/localization_service.dart';
 
-// Core
-import 'router/app_router.dart';
-import 'theme/app_theme.dart';
-import 'state/lock_state.dart';
-import 'logger.dart';
-
 // Features
-import '../features/vault/vault_provider.dart';
 import '../features/vault/data/vault_repository.dart';
-import '../features/kill_switch/kill_switch_provider.dart';
-import '../features/auth/providers/auth_provider.dart';
 
 // Core Security Services
 final encryptionServiceProvider = Provider((ref) => EncryptionService());
 final secureKeyServiceProvider = Provider((ref) => SecureKeyService());
 final secureCryptoStorageProvider = Provider((ref) => SecureCryptoStorage());
 
-// SharedPreferences Provider - Using NotifierProvider for Riverpod 3.x compatibility
-final sharedPreferencesProvider = NotifierProvider<SharedPreferencesNotifier, SharedPreferences?>((ref) => SharedPreferencesNotifier());
+// SharedPreferences Provider
+final sharedPreferencesProvider = NotifierProvider<SharedPreferencesNotifier, SharedPreferences?>(SharedPreferencesNotifier.new);
 
-class SharedPreferencesNotifier extends StateNotifier<SharedPreferences?> {
-  SharedPreferencesNotifier() : super(null);
-  
+class SharedPreferencesNotifier extends Notifier<SharedPreferences?> {
+  @override
+  SharedPreferences? build() => null;
+
   Future<void> initialize(SharedPreferences prefs) async {
     state = prefs;
   }
@@ -177,14 +165,12 @@ final premiumAccessProvider = FutureProvider.family<bool, String>((ref, userId) 
 
 // Dead Man's Switch State Providers
 final deadMansSwitchStateProvider = FutureProvider<DeadMansSwitchState>((ref) async {
-  final dmsService = ref.read(deadMansSwitchServiceProvider);
-  // Create default state if service doesn't have getState method
-  return DeadMansSwitchState(
+  return const DeadMansSwitchState(
     isActive: false,
     lastCheckIn: null,
     lastNotification: null,
     missedCheckIns: 0,
-    config: const DeadMansSwitchConfig(),
+    config: DeadMansSwitchConfig(),
     heirConfirmations: [],
   );
 });
@@ -242,9 +228,9 @@ final healthCheckProvider = FutureProvider<Map<String, bool>>((ref) async {
   }
   
   try {
-    // Test error service
-    final errorService = ref.read(errorHandlingServiceProvider);
-    results['errorHandling'] = true; // Basic health check
+    // Test error service (basic availability check)
+    ref.read(errorHandlingServiceProvider);
+    results['errorHandling'] = true;
   } catch (e) {
     results['errorHandling'] = false;
   }
@@ -259,9 +245,8 @@ final healthCheckProvider = FutureProvider<Map<String, bool>>((ref) async {
   }
   
   try {
-    // Test dead man's switch
-    final dmsService = ref.read(deadMansSwitchServiceProvider);
-    await dmsService.getState();
+    // Test dead man's switch (basic availability check)
+    ref.read(deadMansSwitchServiceProvider);
     results['deadMansSwitch'] = true;
   } catch (e) {
     results['deadMansSwitch'] = false;

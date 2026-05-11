@@ -234,12 +234,9 @@ class EnhancedSubscriptionService {
   );
 
   static const _subscriptionKey = 'enhanced_subscription_v3';
-  static const _userIdKey = 'user_id';
-  static const _paymentHistoryKey = 'payment_history';
 
   // Stripe configuration - should be environment variables
   static const String _stripeSecretKey = 'sk_test_...'; // Replace with actual key
-  static const String _stripeWebhookSecret = 'whsec_...'; // Replace with actual secret
   static const String _baseUrl = 'https://api.stripe.com/v1';
 
   final SecurityService _security = SecurityService();
@@ -706,11 +703,12 @@ class EnhancedSubscriptionService {
   ) async {
     try {
       final priceId = _getPriceIdForTier(tier, billingCycle);
-      
+
       final body = <String, String>{
         'customer': customerId,
         'payment_method': paymentMethodId ?? '',
         'confirm': 'true',
+        'price': priceId,
       };
       
       if (trialPeriod) {
